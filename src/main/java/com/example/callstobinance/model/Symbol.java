@@ -3,7 +3,7 @@ package com.example.callstobinance.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +32,7 @@ public class Symbol {
     private Double askQty;
 
     @Column
-    private Time time;
+    private Long time;
 
     @OneToMany(mappedBy = "symbol", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "symbol-kline")
@@ -41,7 +41,7 @@ public class Symbol {
     public Symbol() {
     }
 
-    public Symbol(Long id, String symbol, Double bidPrice, Double bidQty, Double askPrice, Double askQty, Time time, List<Kline> klineList) {
+    public Symbol(Long id, String symbol, Double bidPrice, Double bidQty, Double askPrice, Double askQty, Long time, List<Kline> klineList) {
         this.id = id;
         this.symbol = symbol;
         this.bidPrice = bidPrice;
@@ -96,15 +96,18 @@ public class Symbol {
         this.askQty = askQty;
     }
 
-    public Time getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 
     public List<Kline> getKlineList() {
+        if (this.klineList == null) {
+            this.klineList = new ArrayList<>();
+        }
         return klineList;
     }
 
